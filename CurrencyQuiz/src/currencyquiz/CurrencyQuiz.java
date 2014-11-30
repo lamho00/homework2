@@ -42,41 +42,16 @@ public class CurrencyQuiz {
      // The frame and label for the histogram will be accessible anywhere in the program. 
      public static JFrame frame = new JFrame();
      public static JLabel label = new JLabel(  ); // Will show a text message and in Image Icon with the results. 
-     
-    private static int coin[]= {1,5,10,25,50,100};
-    private static int bill[]= {1, 2, 5, 10, 20, 50, 100, 500, 1000, 5000, 10000, 100000 };
-    private static  String[] coinPerson = {"President Abraham Lincoln", "President Thomas Jefferson", "President Franklin D. Roosevelt",
-        "President George Washington", "President John F. Kennedy", "President Dwight D. Eisenhower from 1971 to 1978" }; 
-    private static  String[] billPerson = {"President George Washington","President Thomas Jefferson","President  Abraham Lincoln",
-        "President  Alexander Hamilton","President Andrew Jacksonn","President Ulysses S. Grant","Benjamin Franklint","President William McKinley"
-        ,"President Grover Cleveland","President James Madison","President Grover Cleveland","President Woodrow Wilson","Does not exist - only promotional bills "};
-    private static int RealAnswer;
-    private static boolean isPaperBill;
-    private static  String userInput;
+    
 
      
      
-    public static void  randomAnswer(){ //Create a random answer
-        Random r = new Random(); //Create a random # generator   
-        isPaperBill=r.nextBoolean(); //random coin or bill.
-        if (isPaperBill==false){RealAnswer=r.nextInt()*6;}//random coin value0-6          
-        else  { RealAnswer=r.nextInt()*12;}//random coin value0-6          
-    }//end of method randomAnswer
      
-    public static boolean checkAnswer(String input){ 
-        boolean correctAnswer=true; 
-        if(isPaperBill==true){
-            correctAnswer=(input.equals(billPerson[RealAnswer]))?true:false; 
-        } 
-        else{correctAnswer=(input.equals(coinPerson[RealAnswer]))?true:false;}
-        return correctAnswer;
-    }//end of method checkAnswer
      
-    public static void question(){ //Create a question
-        String BillOrCoin=(isPaperBill==true)?" dollar bill":" cent coin";
-        int value =(isPaperBill==true)?bill[RealAnswer]:coin[RealAnswer];
-        System.out.printf("What is the person on the"+value+BillOrCoin+"?"); 
-    }//end of method question        
+     
+     
+     
+     
      
      // This method begins to set up our user interface. 
 // Call it first in the main() method. 
@@ -107,21 +82,221 @@ public class CurrencyQuiz {
      
         
     } // end of GUI method
- 
+     
+     
+     
+     
+     
+     
+     
+     
+     
      
     public static void main(String[] args) {
         // TODO code application logic here
-         createGUI();         
+         createGUI();   
+         String randomAnswer[]=randomAnswer();
+       
+           System.out.printf(randomAnswer[3]);
+          
+         
          frame.setVisible(true); 
-         randomAnswer();
-         question();
-
     }//end of main
     
     
-
+public static String[]  randomAnswer(){
+    int answer[]= {0,0};// [value, (0coin) (1bill)]
     
-   
+    Random r = new Random(); //Create a random # generator
+    
+     boolean isPaperBill=r.nextBoolean(); //random coin or bill.
+     
+     //coins are 1, 5, 10, 25, 50 and 100 for the dollar coin.
+    if (isPaperBill==false){
+         answer[1]=0;
+         double random=r.nextDouble()*6;//random coin value0-6
+         
+         if(random>5){answer[0]=1;
+         }//1 coin
+         else if(random>4){answer[0]=5;
+         }//5 coin
+         else if(random>3){answer[0]=10;
+         }//10 coin
+         else if(random>2){answer[0]=25;
+         }//25 coin
+         else if(random>1){answer[0]=50;
+         }//50 coin
+         else{answer[0]=100;
+         }//100 coin
+         
+         
+     }// if it is a coin
+    
+           
+  // Bill denminations include 1, 2, 5, 10, 20, 50, 100, 500, 1000, 5000, 10,000, 100,000 
+    else  {
+         answer[1]=1;
+         double random=r.nextDouble()*12;//random bill value 0-12
+         
+         if(random>(11)){answer[0]=1;
+         }//1 coin
+         else if(random>(10)){answer[0]=2;
+         }//2 coin
+         else if(random>9){answer[0]=5;
+         }//5 coin
+         else if(random>8){answer[0]=10;
+         }//10
+         else if(random>7){answer[0]=20;
+         }//20
+         else if(random>6){answer[0]=50;
+         }//50
+         else if(random>5){answer[0]=100;
+         }//100
+         else if(random>4){answer[0]=500;
+         }//500
+         else if(random>3){answer[0]=1000;
+         }//1000
+         else if(random>2){answer[0]=5000;
+         }//5000
+         else if(random>1){answer[0]=10000;
+         }//10,000
+         else{answer[0]=100000;
+         }//100,000 
+     };// if it is a bill   
+     
+     
+    String answer2[]= {Integer.toString(answer[0]),Integer.toString(answer[1]),getPerson(answer[0],isPaperBill)};
+     
+    return answer2;         
+
+     
+}//end of method randomAnswer
+    
+    
+    
+        public static String getPerson(int denomination, boolean isPaperBill) {
+     String person = "Adam"; // A stub default value
+     
+     String moneyType = (isPaperBill) ? "bill" : "coin";
+     
+     int value = denomination; // The value of the coin or bill. 
+     
+      switch(moneyType) {
+          
+          // See this link for whose on each coin.
+          // http://www.marshu.com/articles/presidents-on-us-united-states-coins.php
+              
+          case "coin": // Valid coins are 1, 5, 10, 25, 50 and 100 for the dollar coin. 
+               
+              switch(value) { // All values in **cents** for the coin switch.
+                  
+                  case 1: // Handles the American penny or 1¢ coin. 
+                      person = "President Abraham Lincoln";
+                      break;
+                  case 5: // Handles the American nickel or 5¢ coin. 
+                      person = "President Thomas Jefferson";
+                      break;
+                  
+                      
+                  // Complete these additional cases for coins.     
+                  case 10: // The dime features President Franklin D. Roosevelt 
+                         person = "President Franklin D. Roosevelt";
+                      break;
+                      
+                      
+                  case 25:  // The quarter or features President Abraham Lincoln. 
+                         person = "President George Washington";
+                      break;
+                      
+                  case 50: // President on current Half-Dollar coin is John F. Kennedy
+                         person = "President John F. Kennedy";
+                      break;
+                      
+                    case 100: // The dollar coin is unusual. Done for you. 
+                        person = "President Dwight D. Eisenhower from 1971 to 1978";
+                        person += "\nOther years commemorative. ";
+
+                    default: 
+                        person = "Invalid"; // No such coin
+                  
+              } // end inner switch statement for coins. 
+             
+              break; // end of the coin cases
+             
+              
+ // * * * Find the  person on each paper bill in this switch stament. 
+ case "bill":  
+  
+  // Bill denminations include 1, 2, 5, 10, 20, 50, 100, 500, 1000, 5000, 10,000, 100,000 
+  switch(value) {
+                  
+  case 1: // Handles the 1 dollar bill.  
+                      person = "President George Washington";
+                      break;                
+                
+  case 2: // Handles the 2 dollar bill.  
+                      person = "President Thomas Jefferson";
+                      break;  
+  case 5: // Handles the 2 dollar bill.  
+                      person = "President  Abraham Lincoln";
+                      break;        
+  case 10: // Handles the 2 dollar bill.  
+                      person = "President  Alexander Hamilton";
+                      break;  
+  case 20: // Handles the 2 dollar bill.  
+                      person = "President Andrew Jacksonn";
+                      break;        
+  case 50: // Handles the 2 dollar bill.  
+                      person = "President Ulysses S. Grant";
+                      break;       
+  case 100: // Handles the 2 dollar bill.  
+                      person = "Benjamin Franklint";
+                      break;   
+  case 500: // Handles the 2 dollar bill.  
+                      person = "President William McKinley";
+                      break;      
+  case 1000: // Handles the 2 dollar bill.  
+                      person = "President Grover Cleveland";
+                      break;     
+  case 5000: // Handles the 2 dollar bill.  
+                      person = "President James Madison";
+                      break;  
+  case 10000: // Handles the 2 dollar bill.  
+                      person = "President Grover Cleveland";
+                      break;      
+  case 100000: // Handles the 2 dollar bill.  
+                      person = "President Woodrow Wilson";
+                      break; 
+  case 1000000: // Handles the 2 dollar bill.  
+                      person = "Does not exist - only promotional bills ";
+                      break;       
+  // Add cases here to handle the missing bills. 
+  // Must inclue all these missing cases.   5, 10, 20, 50, 100, 500, 1000, 5000, 10,000, 100,000  
+  // Start with the 5 dollar bill. Consult the references mentioned agt the top.                
+                             
+  default:              
+             person = "Invalid"; // No such bill
+      
+    } // Switch statement for paper bills           
+              break;          
+          default: break;           
+      } // end of outer switch - coin or bill.    
+     return person;
+     } // end of method getPerson  
+    
+    
+    
+
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
 /**
 Adds a button to a container. 
 @param c the container
